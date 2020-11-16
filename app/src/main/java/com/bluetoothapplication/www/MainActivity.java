@@ -100,17 +100,30 @@ public class MainActivity extends AppCompatActivity implements BluetoothSPP.OnDa
     public void onDataReceived(byte[] data, String message) {
         if (clFoot.getVisibility() == View.GONE)
             return;
+        int leftLeft=0, leftRight=0, rightLeft=0, rightRight=0;
         String received = message.trim();
         if (received.contains("left")) {
             message = message.replace("left", "").trim();
             String[] arr = message.split(",");
-            tvLeftLeft.setText(arr[0].trim());
-            tvLeftRight.setText(arr[1].trim());
+            leftLeft = Integer.parseInt(arr[0].trim());
+            leftRight = Integer.parseInt(arr[1].trim());
+
         } else {
             message = message.replace("right", "").trim();
             String[] arr = message.split(",");
-            tvRightLeft.setText(arr[0].trim());
-            tvRightRight.setText(arr[1].trim());
+            rightLeft = Integer.parseInt(arr[0].trim());
+            rightRight = Integer.parseInt(arr[1].trim());
+        }
+        tvLeftLeft.setText(""+leftLeft);
+        tvLeftRight.setText(""+leftRight);
+        tvRightLeft.setText(""+rightLeft);
+        tvRightRight.setText(""+rightRight);
+
+        if(leftRight >=200 && rightLeft>=200){
+            Toast.makeText(this, "안짱 걸음 주의!", Toast.LENGTH_SHORT).show();
+        }
+        if(leftLeft >= 200 && rightRight>=200){
+            Toast.makeText(this, "팔자 걸음 주의!", Toast.LENGTH_SHORT).show();
         }
     }
 
